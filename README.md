@@ -1,6 +1,6 @@
 # 3D Video Game Final Project
 
-Name of game: Maze  
+Name of game: Maze of Uncertainty
 Group members: Zachary Thomas, Miranda Becker, Ivan Natividad  
 
 A first-person maze exploration game where the player navigates unique levels, avoids enemies, and collects an item required to move forward.
