@@ -3,7 +3,7 @@
 Name of game: Maze  
 Group members: Zachary Thomas, Miranda Becker, Ivan Natividad  
 
-A first-person maze exploration game where the player navigates handcrafted levels, avoids enemies, and collects an item required to move forward.
+A first-person maze exploration game where the player navigates unique levels, avoids enemies, and collects an item required to move forward.
 
 ---
 
@@ -11,9 +11,9 @@ A first-person maze exploration game where the player navigates handcrafted leve
 
 - First-person gameplay with basic movement and physics  
 - Two maze levels, not infinite or procedural  
-- Progression through collectibles — find the item in each level to unlock the next  
+- Progression through collectibles; find the item in each level to unlock the next  
 - Main menu and level select for navigating the game  
-- Enemies that:
+- Enemies:
   - Move through the maze  
   - Detect and collide with the player  
   - Deal damage and can cause player death  
