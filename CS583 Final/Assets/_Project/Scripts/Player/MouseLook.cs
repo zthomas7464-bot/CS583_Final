@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSens = 100f;
+    public float mouseSens = 200f;
     public Transform playerBody;
 
     //Store how far the camera has rotated
