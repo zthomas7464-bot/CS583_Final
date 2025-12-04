@@ -33,7 +33,7 @@ public class EnemyAI : MonoBehaviour
 
     private float lastAttackTime = -999f;
 
-    // NEW: remembers if we are in chase mode
+    //Remembers if we are in chase mode
     private bool isChasing = false;
 
     void Start()
@@ -61,7 +61,7 @@ public class EnemyAI : MonoBehaviour
 
         Vector3 horizontalMove = Vector3.zero;
 
-        // ─── VISION STATE LOGIC ────────────────────────────────
+        // VISION STATE LOGIC 
         bool canSeeNow = CanSeePlayerInFOV();     // distance + FOV + LOS
         bool hasLOS = HasLineOfSightToPlayer();   // distance + LOS only
 
@@ -73,7 +73,7 @@ public class EnemyAI : MonoBehaviour
         if (isChasing && !hasLOS)
             isChasing = false;
 
-        // ─── MOVEMENT ──────────────────────────────────────────
+        // MOVEMENT 
         if (isChasing)
         {
             // CHASE
@@ -111,11 +111,8 @@ public class EnemyAI : MonoBehaviour
         controller.Move(move * Time.deltaTime);
     }
 
-    // ──────────────────────────────────────
     // Vision helpers
-    // ──────────────────────────────────────
 
-    // Used to START the chase: needs FOV + distance + LOS
     bool CanSeePlayerInFOV()
     {
         if (player == null) return false;
@@ -130,11 +127,11 @@ public class EnemyAI : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, toPlayerXZ);
         if (angle > viewAngle * 0.5f) return false;
 
-        // must ALSO have clear line of sight
+        // must also have clear line of sight
         return HasLineOfSightToPlayer();
     }
 
-    // Used while chasing: only care about distance + LOS, not angle
+    // Used while chasing, only care about distance + LOS, not angle
     bool HasLineOfSightToPlayer()
     {
         if (player == null) return false;
@@ -149,7 +146,7 @@ public class EnemyAI : MonoBehaviour
         dir.Normalize();
 
         RaycastHit hit;
-        // No LayerMask here → hits everything; first hit must be the player
+        // No LayerMask here, hits everything, first hit must be the player
         if (Physics.Raycast(origin, dir, out hit, distance))
         {
             return hit.collider.CompareTag("Player");
@@ -158,9 +155,7 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
 
-    // ──────────────────────────────────────
     // Wandering
-    // ──────────────────────────────────────
     void UpdateWanderDirection()
     {
         wanderTimer -= Time.deltaTime;
@@ -175,9 +170,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // ──────────────────────────────────────
     // Attacking / Damage
-    // ──────────────────────────────────────
     void TryAttack()
     {
         if (Time.time < lastAttackTime + attackCooldown)
@@ -195,9 +188,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // ──────────────────────────────────────
-    // GIZMOS (Scene View Only)
-    // ──────────────────────────────────────
+    // GIZMOS
     void OnDrawGizmos()
     {
         // Draw view radius
