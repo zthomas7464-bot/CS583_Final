@@ -8,6 +8,12 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 3; //Max
     private int currentHealth; // What its at rn
 
+    //For the ui
+    public int CurrentHealth
+    {
+        get {return currentHealth;}
+    } 
+
     void Start()
     {
         //Set health at start
@@ -18,6 +24,12 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+
+        HealthBarUI ui = FindObjectOfType<HealthBarUI>();
+        if (ui != null)
+        {
+            ui.TriggerDamageFlash();
+        }
 
         //Die if health is 0 or less
         if (currentHealth <= 0)
