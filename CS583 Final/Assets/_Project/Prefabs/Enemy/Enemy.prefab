@@ -129,9 +129,6 @@ MonoBehaviour:
   gravity: -9.81
   viewDistance: 10
   viewAngle: 90
-  viewMask:
-    serializedVersion: 2
-    m_Bits: 0
   damage: 1
   attackRange: 1.5
   attackCooldown: 1
