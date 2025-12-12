@@ -8,8 +8,7 @@ public class HealthBarUI : MonoBehaviour
 {
     [Header("References")]
     public PlayerHealth playerHealth;
-    public Slider healthSlider;
-    public TextMeshProUGUI healthText;
+    public Image[] heartImages;
     public Image damageFlashImage;
 
     [Header("Damage Flash Settings")]
@@ -19,12 +18,13 @@ public class HealthBarUI : MonoBehaviour
 
 
     [Header("Low Health Settings")]
+    public bool tintHeartsOnLowHealth = true;
+    public Color lowHealthColor = new Color(0.54f, 0.01f, 0.01f);
     [Range(0f, 1f)]
     public float lowHealthThreshold = 0.33f;
 
     private float flashTimer = 0f;
-    private Color originalTextColor;
-    private Color lowHealthColor;
+    private Color[] originalHeartColors;
 
     // Start is called before the first frame update
     void Start()
@@ -41,27 +41,20 @@ public class HealthBarUI : MonoBehaviour
             return;
         }
 
-        //Inititalize with range and current value
-        if (healthSlider != null){
-            healthSlider.maxValue = playerHealth.maxHealth;
-            healthSlider.value = playerHealth.CurrentHealth;
+        //Store original heart color
+        if (heartImages != null && heartImages.Length > 0)
+        {
+            originalHeartColors = new Color[heartImages.Length];
+            for (int i = 0; i < heartImages.Length; i++)
+            {
+                if (heartImages[i] != null)
+                {
+                    originalHeartColors[i] = heartImages[i].color;
+                }
+            }
         }
 
-        if (healthText != null)
-        {
-            originalTextColor = healthText.color;
-        }
-
-        Color parsedColor;
-        if (ColorUtility.TryParseHtmlString("#8a0303", out parsedColor))
-        {
-            lowHealthColor = parsedColor;
-        }
-        else
-        {
-            lowHealthColor = Color.red;
-        }
-
+        //Make sure damage flash starts invisible
         if (damageFlashImage != null)
         {
             Color c = damageFlashImage.color;
@@ -70,7 +63,7 @@ public class HealthBarUI : MonoBehaviour
         }
         
         //update the HP Text
-        UpdateHealthText();
+        UpdateHearts();
     }
 
     // Update is called once per frame
@@ -78,28 +71,9 @@ public class HealthBarUI : MonoBehaviour
     {
         if (playerHealth == null) return;
 
-        //update the slider so it matches current health
-        if (healthSlider != null)
-        {
-            healthSlider.value = playerHealth.CurrentHealth;
-        }
+        //update the Hearts
+        UpdateHearts();
 
-        //update the HP Text
-        UpdateHealthText();
-
-        //Low health warning
-        if (healthText != null)
-        {
-            float healthPercent = (float)playerHealth.CurrentHealth / playerHealth.maxHealth;
-            if (healthPercent <= lowHealthThreshold)
-            {
-                healthText.color = lowHealthColor;
-            }
-            else
-            {
-                healthText.color = originalTextColor;
-            }
-        }
 
         //Damage flash fade out
         if (damageFlashImage != null && flashTimer > 0f)
@@ -109,12 +83,45 @@ public class HealthBarUI : MonoBehaviour
             float t = 1f - (flashTimer / flashDuration);
             t = Mathf.Clamp01(t);
 
-            // Smooth easing from maxFlashAlpha to 0
+            //Smooth from maxFlashAlpha to 0
             float alpha = Mathf.SmoothStep(maxFlashAlpha, 0f, t);
 
             Color c = damageFlashImage.color;
             c.a = alpha;
             damageFlashImage.color = c;
+        }
+    }
+
+    void UpdateHearts()
+    {
+        if (heartImages == null || heartImages.Length == 0) return;
+
+        int currentHealth = Mathf.Clamp(playerHealth.CurrentHealth, 0, heartImages.Length);
+        int maxHealth = playerHealth.maxHealth;
+
+        //Show or hide hearts based on health
+        for (int i = 0; i < heartImages.Length; i++)
+        {
+            if (heartImages[i] == null) continue;
+
+            //Make heart visible if the index is less than health
+            heartImages[i].enabled = (i < currentHealth);
+        }
+
+        //Tint the heart on low health
+        if (tintHeartsOnLowHealth && originalHeartColors != null)
+        {
+            float healthPercent = (float)currentHealth / maxHealth;
+            bool isLow = healthPercent <= lowHealthThreshold;
+
+            for (int i = 0; i < heartImages.Length; i++)
+            {
+                if (heartImages[i] == null) continue;
+
+                if (!heartImages[i].enabled) continue;
+
+                heartImages[i].color = isLow ? lowHealthColor : originalHeartColors[i];
+            }
         }
     }
 
@@ -128,12 +135,5 @@ public class HealthBarUI : MonoBehaviour
         Color c = damageFlashImage.color;
         c.a = maxFlashAlpha;
         damageFlashImage.color = c;
-    }
-
-    void UpdateHealthText()
-    {
-        if (healthText == null) return;
-
-        healthText.text = $"HP: {playerHealth.CurrentHealth} / {playerHealth.maxHealth}";
     }
 }
