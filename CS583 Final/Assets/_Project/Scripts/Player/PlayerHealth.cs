@@ -55,12 +55,23 @@ public class PlayerHealth : MonoBehaviour
         return true;
     }
 
+    public void ResetHealth()
+    {
+        CurrentHealth = maxHealth;
+    }
+
     void Die()
     {
-        // In case death while paused
-        Time.timeScale = 1f;
-
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.buildIndex);
+        RespawnManager rm = FindObjectOfType<RespawnManager>();
+        if (rm != null)
+        {
+            rm.RespawnPlayer();
+        }
+        else
+        {
+            // fallback: reload scene
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.buildIndex);
+        }
     }
 }
