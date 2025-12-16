@@ -18,13 +18,11 @@ public class RespawnManager : MonoBehaviour
             controller = playerHealth.GetComponent<CharacterController>();
     }
 
-    // Called by PlayerHealth when the player "dies"
     public void RespawnPlayer()
     {
         if (playerHealth == null || spawnPoints == null || spawnPoints.Length == 0)
         {
             Debug.LogError("RespawnManager: Missing player or spawn points!");
-            // Fallback: reload scene so game still works
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex);
             return;
@@ -32,10 +30,10 @@ public class RespawnManager : MonoBehaviour
 
         Transform spawn = GetRandomSpawnPoint();
 
-        // Reset health
+        //reset health
         playerHealth.ResetHealth();
 
-        // Teleport player safely
+        // teleport the player
         if (controller != null)
             controller.enabled = false;
 

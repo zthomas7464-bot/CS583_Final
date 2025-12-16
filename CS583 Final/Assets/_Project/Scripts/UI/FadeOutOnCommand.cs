@@ -14,21 +14,20 @@ public class FadeOutOnCommand : MonoBehaviour
 
     IEnumerator FadeAndLoad(string sceneName)
     {
-        // Make sure fadeGroup starts at 0
         fadeGroup.alpha = 0f;
 
         float t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.unscaledDeltaTime; // bypass timeScale = 0
+            t += Time.unscaledDeltaTime;
             fadeGroup.alpha = Mathf.Clamp01(t / fadeDuration);
             yield return null;
         }
 
-        // Ensure fully black
+        // Ensure fully faded
         fadeGroup.alpha = 1f;
 
-        // Reset timeScale before changing scenes
+        // reset timeScale before changing scenes
         Time.timeScale = 1f;
 
         SceneManager.LoadScene(sceneName);

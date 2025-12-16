@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class PressAnyKeyToStart : MonoBehaviour
 {
     [Header("UI References")]
-    public CanvasGroup fadeGroup;         // Black image CanvasGroup
-    public CanvasGroup pressAnyKeyGroup;  // To fade out text
+    public CanvasGroup fadeGroup; // Black image CanvasGroup
+    public CanvasGroup pressAnyKeyGroup;
 
     [Header("Settings")]
     public float fadeDuration = 1.5f;
@@ -46,18 +46,18 @@ public class PressAnyKeyToStart : MonoBehaviour
             if (fadeGroup != null)
                 fadeGroup.alpha = normalized;
 
-            // Fade out "Press Any Key" text
+            //Fade out text
             if (pressAnyKeyGroup != null)
                 pressAnyKeyGroup.alpha = 1f - normalized;
 
             yield return null;
         }
 
-        // Make sure it's fully black at the end
+        // Make sure fully black at the end
         if (fadeGroup != null)
             fadeGroup.alpha = 1f;
 
-        // Load your game scene
+        // Load game scene
         SceneManager.LoadScene(levelToLoad);
     }
 }

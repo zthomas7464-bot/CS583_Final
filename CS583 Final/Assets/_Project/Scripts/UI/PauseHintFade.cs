@@ -4,8 +4,8 @@ using UnityEngine;
 public class PauseHintFade : MonoBehaviour
 {
     public CanvasGroup hintGroup;
-    public float showTime = 30f;      // how long the text stays fully visible
-    public float fadeDuration = 2f;   // time it takes to fade out
+    public float showTime = 30f;
+    public float fadeDuration = 2f;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class PauseHintFade : MonoBehaviour
 
     IEnumerator ShowAndFade()
     {
-        // wait while fully visible (game time)
+        // wait while fully visible
         yield return new WaitForSeconds(showTime);
 
         float t = 0f;

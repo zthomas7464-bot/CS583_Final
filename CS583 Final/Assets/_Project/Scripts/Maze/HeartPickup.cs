@@ -44,7 +44,7 @@ public class HeartPickup : MonoBehaviour
 
         collected = true;
 
-        // Play pickup sound -- add later
+        // Play pickup sound if sound added
         if (pickupSound != null)
         {
             AudioSource.PlayClipAtPoint(pickupSound, transform.position);
@@ -54,11 +54,11 @@ public class HeartPickup : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        // Hide the visual heart
+        //Hide the visual heart
         if (visualObject != null)
             visualObject.SetActive(false);
 
-        // Destroy root after delay
+        // destroy root after delay
         Destroy(gameObject, destroyDelay);
     }
 }

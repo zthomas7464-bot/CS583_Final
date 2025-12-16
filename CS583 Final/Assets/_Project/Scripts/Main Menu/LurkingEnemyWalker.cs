@@ -8,9 +8,9 @@ public class LurkingEnemyWalker : MonoBehaviour
     public Transform endPoint;
 
     [Header("Timing")]
-    public float moveDuration = 4f;      // time to walk from start to end
-    public float minDelay = 5f;          // min time before it appears again
-    public float maxDelay = 15f;         // max time before it appears again
+    public float moveDuration = 4f;
+    public float minDelay = 5f; 
+    public float maxDelay = 15f;
 
     [Header("Appearance")]
     public bool hideBetweenWalks = true; // disable renderer between walks
@@ -19,7 +19,6 @@ public class LurkingEnemyWalker : MonoBehaviour
 
     void Awake()
     {
-        // cache all renderers so we can show/hide
         renderers = GetComponentsInChildren<Renderer>();
     }
 
@@ -39,7 +38,7 @@ public class LurkingEnemyWalker : MonoBehaviour
     {
         while (true)
         {
-            // wait some time before next walk
+            //wait some time before next walk
             float delay = Random.Range(minDelay, maxDelay);
             yield return new WaitForSeconds(delay);
 
@@ -54,7 +53,7 @@ public class LurkingEnemyWalker : MonoBehaviour
             if (hideBetweenWalks)
                 SetVisible(true);
 
-            // do the walk
+            //do the walk
             yield return StartCoroutine(WalkOnce());
 
             // hide after done
@@ -81,7 +80,7 @@ public class LurkingEnemyWalker : MonoBehaviour
             yield return null;
         }
 
-        // ensure at end
+        //ensure at end
         transform.position = endPoint.position;
     }
 

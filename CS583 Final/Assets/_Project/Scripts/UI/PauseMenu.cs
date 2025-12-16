@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuUI;   // Panel with the pause menu
+    public GameObject pauseMenuUI;
     public string mainMenuSceneName = "MainMenu";
 
     public static bool GameIsPaused = false;
@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        // Press ESC to toggle pause
+        // toggle pause with esc
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -34,8 +34,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-
-        // Lock & hide cursor again for FPS control
+        // lock and hide curosr
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -46,7 +45,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
 
-        // Unlock & show cursor so we can click UI
+        // unlock cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -58,7 +57,6 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        // Find the fade controller
         FadeOutOnCommand fade = FindObjectOfType<FadeOutOnCommand>();
 
         if (fade != null)
@@ -67,7 +65,6 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
-            // fallback: load instantly
             Time.timeScale = 1f;
             SceneManager.LoadScene(mainMenuSceneName);
         }

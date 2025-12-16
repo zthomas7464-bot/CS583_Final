@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     [Header("References")]
-    public Transform player;         // Assign in inspector or found in Start
+    public Transform player;
 
     private CharacterController controller;
 
@@ -16,9 +16,9 @@ public class EnemyAI : MonoBehaviour
     public float gravity = -9.81f;
 
     [Header("Vision")]
-    public float viewDistance = 10f; // How far the enemy can see
+    public float viewDistance = 10f; // How far enemy can see
     [Range(0f, 360f)]
-    public float viewAngle = 90f;    // Field of view in degrees
+    public float viewAngle = 90f;    // Field of view in deg
 
     [Header("Attack")]
     public int damage = 1;
@@ -33,14 +33,14 @@ public class EnemyAI : MonoBehaviour
 
     private float lastAttackTime = -999f;
 
-    //Remembers if we are in chase mode
+    //check chase mode
     private bool isChasing = false;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
-        // If player not set in inspector, find by tag
+        // find by tag
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -62,14 +62,14 @@ public class EnemyAI : MonoBehaviour
         Vector3 horizontalMove = Vector3.zero;
 
         // VISION STATE LOGIC 
-        bool canSeeNow = CanSeePlayerInFOV();     // distance + FOV + LOS
-        bool hasLOS = HasLineOfSightToPlayer();   // distance + LOS only
+        bool canSeeNow = CanSeePlayerInFOV();
+        bool hasLOS = HasLineOfSightToPlayer();
 
-        // if we see the player in our cone → start chasing
+        // if sees the player in  cone start chasing
         if (canSeeNow)
             isChasing = true;
 
-        // if we are chasing but lose line of sight (wall between us) → stop chasing
+        // if chasing but lose line of sight stop chasing
         if (isChasing && !hasLOS)
             isChasing = false;
 
@@ -122,16 +122,15 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer > viewDistance) return false;
 
-        // check angle on XZ plane
         Vector3 toPlayerXZ = new Vector3(toPlayer.x, 0f, toPlayer.z).normalized;
         float angle = Vector3.Angle(transform.forward, toPlayerXZ);
         if (angle > viewAngle * 0.5f) return false;
 
-        // must also have clear line of sight
+        // has clear line of sight
         return HasLineOfSightToPlayer();
     }
 
-    // Used while chasing, only care about distance + LOS, not angle
+    // Used while chasing
     bool HasLineOfSightToPlayer()
     {
         if (player == null) return false;
@@ -146,7 +145,6 @@ public class EnemyAI : MonoBehaviour
         dir.Normalize();
 
         RaycastHit hit;
-        // No LayerMask here, hits everything, first hit must be the player
         if (Physics.Raycast(origin, dir, out hit, distance))
         {
             return hit.collider.CompareTag("Player");
@@ -170,7 +168,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // Attacking / Damage
+    // Attacking and Damage
     void TryAttack()
     {
         if (Time.time < lastAttackTime + attackCooldown)

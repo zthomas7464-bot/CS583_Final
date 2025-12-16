@@ -5,12 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 3;      // Max hearts
+    public int maxHealth = 3; // Max hearts
 
-    // Backing field
     private int currentHealth;
 
-    // For the UI and other scripts
     public int CurrentHealth
     {
         get { return currentHealth; }
@@ -23,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
         CurrentHealth = maxHealth;
     }
 
-    // Change health when damage is taken
+    // change health when damage is taken
     public void TakeDamage(int amount)
     {
         if (amount <= 0) return;
@@ -37,17 +35,16 @@ public class PlayerHealth : MonoBehaviour
             ui.TriggerDamageFlash();
         }
 
-        // Die if health is 0 or less
+        // die if health is 0 or less
         if (CurrentHealth <= 0)
             Die();
     }
 
-    // Called by the heart pickup
+    // Called by heart pickup
     public bool Heal(int amount)
     {
         if (amount <= 0) return false;
 
-        // Already full
         if (CurrentHealth >= maxHealth)
             return false;
 
@@ -69,7 +66,6 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            // fallback: reload scene
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.buildIndex);
         }

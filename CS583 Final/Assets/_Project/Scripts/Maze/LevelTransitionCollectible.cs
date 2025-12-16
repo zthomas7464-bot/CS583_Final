@@ -9,10 +9,10 @@ public class LevelTransitionCollectible : MonoBehaviour
 
     [Header("Pickup Settings")]
     public AudioClip pickupSound;
-    public float loadDelay = 0.5f;   // small delay before loading
+    public float loadDelay = 0.5f;
 
     [Header("Visual")]
-    public GameObject visualObject;  // assign the model here (or leave null to use self)
+    public GameObject visualObject;
 
     private bool collected = false;
     private Collider col;
@@ -37,20 +37,18 @@ public class LevelTransitionCollectible : MonoBehaviour
         {
             collected = true;
 
-            // Play pickup sound at this position
+            // Play pickup sound
             if (pickupSound != null)
             {
                 AudioSource.PlayClipAtPoint(pickupSound, transform.position);
             }
 
-            // Disable collider so it can't be triggered again
             if (col != null)
                 col.enabled = false;
 
             // Hide visuals without disabling the whole GameObject
             HideVisuals();
 
-            // Now we can safely run a coroutine
             StartCoroutine(LoadNextScene());
         }
     }
@@ -65,19 +63,21 @@ public class LevelTransitionCollectible : MonoBehaviour
 
     IEnumerator LoadNextScene()
     {
-        // optional delay (use unscaled if you ever do this while paused)
+        // delay
         yield return new WaitForSeconds(loadDelay);
 
-        // Try to use your fade component if it exists
+        // Mark Level 2 as unlocked
+        PlayerPrefs.SetInt("Level2Unlocked", 1);
+        PlayerPrefs.Save();
+
+        //use fade
         FadeOutOnCommand fade = FindObjectOfType<FadeOutOnCommand>();
         if (fade != null)
         {
-            // this works for ANY scene name, not just the main menu
-            fade.StartFadeToMenu(nextSceneName);
+            fade.StartFadeToMenu(nextSceneName); 
         }
         else
         {
-            // fallback: load directly
             SceneManager.LoadScene(nextSceneName);
         }
     }
