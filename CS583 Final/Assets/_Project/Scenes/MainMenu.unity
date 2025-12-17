@@ -1297,7 +1297,7 @@ MonoBehaviour:
   level1Button: {fileID: 2091153703}
   level2Button: {fileID: 644461241}
   level1SceneName: Level1
-  level2SceneName: Level2
+  level2SceneName: LevelTwo
 --- !u!4 &1187499669
 Transform:
   m_ObjectHideFlags: 0
