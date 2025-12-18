@@ -8438,6 +8438,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1559735569348291285, guid: 12ef339208df93a4c8b4617f3f73ea22, type: 3}
+      propertyPath: spawnPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1348122143}
+    - target: {fileID: 1559735569348291285, guid: 12ef339208df93a4c8b4617f3f73ea22, type: 3}
+      propertyPath: spawnPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1348122142}
+    - target: {fileID: 1559735569348291285, guid: 12ef339208df93a4c8b4617f3f73ea22, type: 3}
+      propertyPath: spawnPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1348122141}
+    - target: {fileID: 1559735569348291285, guid: 12ef339208df93a4c8b4617f3f73ea22, type: 3}
+      propertyPath: spawnPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1348122140}
     - target: {fileID: 3940186947676764895, guid: 12ef339208df93a4c8b4617f3f73ea22, type: 3}
       propertyPath: m_Name
       value: RespawnManager
@@ -22343,6 +22359,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a69d40a86e294264a85d49579ff793c0, type: 3}
+--- !u!4 &1348122140 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 381574969999094865, guid: a69d40a86e294264a85d49579ff793c0, type: 3}
+  m_PrefabInstance: {fileID: 1348122139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1348122141 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2447450422296659631, guid: a69d40a86e294264a85d49579ff793c0, type: 3}
+  m_PrefabInstance: {fileID: 1348122139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1348122142 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4225087103477288542, guid: a69d40a86e294264a85d49579ff793c0, type: 3}
+  m_PrefabInstance: {fileID: 1348122139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1348122143 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1537183326574790090, guid: a69d40a86e294264a85d49579ff793c0, type: 3}
+  m_PrefabInstance: {fileID: 1348122139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1365549097
 Mesh:
   m_ObjectHideFlags: 0
