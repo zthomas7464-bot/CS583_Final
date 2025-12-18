@@ -33,14 +33,14 @@ public class EnemyAI : MonoBehaviour
 
     private float lastAttackTime = -999f;
 
-    //check chase mode
+    // chase mode
     private bool isChasing = false;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
-        // find by tag
+        // find player by tag if not assigned
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -65,7 +65,7 @@ public class EnemyAI : MonoBehaviour
         bool canSeeNow = CanSeePlayerInFOV();
         bool hasLOS = HasLineOfSightToPlayer();
 
-        // if sees the player in  cone start chasing
+        // if sees the player in cone start chasing
         if (canSeeNow)
             isChasing = true;
 
@@ -89,8 +89,6 @@ public class EnemyAI : MonoBehaviour
                 Quaternion targetRot = Quaternion.LookRotation(dirToPlayer);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 5f * Time.deltaTime);
             }
-
-            TryAttack();
         }
         else
         {
@@ -109,6 +107,10 @@ public class EnemyAI : MonoBehaviour
         move.y = verticalVelocity;
 
         controller.Move(move * Time.deltaTime);
+
+        // 🔥 Always try to attack if close enough,
+        // regardless of whether enemy is currently facing you or "isChasing"
+        TryAttack();
     }
 
     // Vision helpers
@@ -130,7 +132,7 @@ public class EnemyAI : MonoBehaviour
         return HasLineOfSightToPlayer();
     }
 
-    // Used while chasing
+    // Used while chasing and for attacks (if you want walls to block hits)
     bool HasLineOfSightToPlayer()
     {
         if (player == null) return false;
@@ -175,7 +177,7 @@ public class EnemyAI : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= attackRange)
+        if (distance <= attackRange /* && HasLineOfSightToPlayer() */)  // <- add/remove LOS as you like
         {
             PlayerHealth ph = player.GetComponent<PlayerHealth>();
             if (ph != null)
