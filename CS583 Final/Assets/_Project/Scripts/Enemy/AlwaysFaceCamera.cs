@@ -4,25 +4,41 @@ using UnityEngine;
 
 public class AlwaysFaceCamera : MonoBehaviour
 {
-    public Transform targetCamera;
+    [Header("Setup")]
+    public Transform enemyRoot;
+    public float spriteHeight = 1.2f;
+    public float edgeOffset = 0.5f;
+
+    private Transform cam;
 
     void LateUpdate()
     {
-        if (targetCamera == null)
+        if (cam == null)
         {
             if (Camera.main == null) return;
-            targetCamera = Camera.main.transform;
+            cam = Camera.main.transform;
         }
 
-        Vector3 direction = targetCamera.position - transform.position;
+        if (enemyRoot == null)
+        {
+            enemyRoot = transform.parent;
+            if (enemyRoot == null) return;
+        }
 
-        //Only rotate around Y
-        direction.y = 0f;
+        Vector3 toEnemy = enemyRoot.position - cam.position;
 
-        if (direction.sqrMagnitude < 0.0001f) return;
+        Vector3 onlyHorizontal = new Vector3(toEnemy.x, 0f, toEnemy.z);
+        if (onlyHorizontal.sqrMagnitude < 0.0001f) return;
 
-        //Always face the camera
-        Quaternion LookRotation = Quaternion.LookRotation(-direction);
-        transform.rotation = LookRotation;
+        onlyHorizontal.Normalize();
+
+        //Make it just in from of the enemy in the direction of the camera
+        Vector3 spritePos = enemyRoot.position - onlyHorizontal * edgeOffset;
+        spritePos.y = enemyRoot.position.y + spriteHeight;
+
+        transform.position = spritePos;
+
+        //Face the cam
+        transform.rotation = Quaternion.LookRotation(onlyHorizontal, Vector3.up);
     }
 }
