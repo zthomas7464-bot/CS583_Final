@@ -16,9 +16,9 @@ public class EnemyAI : MonoBehaviour
     public float gravity = -9.81f;
 
     [Header("Vision")]
-    public float viewDistance = 10f; // How far enemy can see
+    public float viewDistance = 10f;
     [Range(0f, 360f)]
-    public float viewAngle = 90f;    // Field of view in deg
+    public float viewAngle = 90f; 
 
     [Header("Attack")]
     public int damage = 1;
@@ -40,7 +40,7 @@ public class EnemyAI : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
-        // find player by tag if not assigned
+        // find player by tag 
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -108,8 +108,6 @@ public class EnemyAI : MonoBehaviour
 
         controller.Move(move * Time.deltaTime);
 
-        // 🔥 Always try to attack if close enough,
-        // regardless of whether enemy is currently facing you or "isChasing"
         TryAttack();
     }
 
@@ -132,7 +130,6 @@ public class EnemyAI : MonoBehaviour
         return HasLineOfSightToPlayer();
     }
 
-    // Used while chasing and for attacks (if you want walls to block hits)
     bool HasLineOfSightToPlayer()
     {
         if (player == null) return false;
